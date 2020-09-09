@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>OC </title>
+    <link rel="stylesheet" href="/home-styles.css">
+</head>
+
+<body>
+    <header>TAS OC 2020 Games and Gift Sign-Up</header>
+    <section>
+        <div class="checkbox-container" style="margin-right:auto;">
+            <p><strong>View:</strong></p>
+
+            <input class="checkbox" type="checkbox" id="Clothing/Accessory" checked onchange="updateViewTable()">
+            <label for="Clothing/Accessory">Clothing/Accessory</label>
+
+            <input class="checkbox" type="checkbox" id="Shoes" checked onchange="updateViewTable()">
+            <label for="Shoes">Shoes</label>
+
+            <input class="checkbox" type="checkbox" id="Stationery" checked onchange="updateViewTable()">
+            <label for="Stationery">Stationery</label>
+
+            <input class="checkbox" type="checkbox" id="Gift Cards" checked onchange="updateViewTable()">
+            <label for="Gift Cards">Gift Cards</label>
+
+            <input class="checkbox" type="checkbox" id="Miscellaneous" checked onchange="updateViewTable()">
+            <label for="Miscellaneous">Miscellaneous</label>
+        </div>
+        <input type="text" style="margin-left: auto;" class="search-bar" placeholder="Search..."
+            onkeyup="updateViewTable()">
+    </section>
+    <section>
+        <div class="sort-by-dropdown" style="margin-right:auto;">
+            <p><strong>Order by: </strong></p>
+            <select onchange="updateViewTable()">
+                <option value="name">Item Name</option>
+                <option value="category">Category</option>
+                <option value="price">Price Range</option>
+            </select>
+        </div>
+        <div class="refresh-button" style="margin-left:auto;">
+            <button type="button" onclick="refresh()">Refresh</button>
+        </div>
+    </section>
+    <div class="item-count">
+    </div>
+    <section class="table">
+        
+    </section>
+    <script src="script.js"></script>
+</body>
+
+</html>

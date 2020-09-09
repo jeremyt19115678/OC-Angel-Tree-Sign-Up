@@ -1,0 +1,53 @@
+section{
+    display: flex;
+    align-items:center;
+    margin: 5px;
+}
+
+body{
+    background-color: #b9d9ff;
+}
+
+.table{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.table button{
+    width: 35%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+}
+
+.table div.login{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table div.login button{
+    text-align: center;
+    display: inline-block;
+}
+
+.table table.text-fields{
+    width: 35%;
+    border: none;
+}
+
+.table table.text-fields tr td{
+    padding: 8px;
+}
+
+.table table.text-fields tr td input.sign-up-input{
+    width:100%;
+}
+
+.table table.text-fields tr td:first-child{
+    text-align:right;
+}
