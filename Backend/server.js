@@ -2,12 +2,14 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
+const flash = require('express-flash');
 const app = express();
 
 // initialize Passport by passing in passport instance
 const initializePassport = require('./passport-config.js');
 initializePassport(passport);
 
+app.use(flash());
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
   secret: 'secret',
@@ -25,6 +27,7 @@ app.get('/', (req,res) => {
   res.sendFile(path.join(__dirname,'../Frontend/src/Home/index.html'));
 });
 
+// used for rendering using ejs
 app.set('view engine', 'ejs');
 
 //send back the data in csv format needed for table
@@ -36,26 +39,19 @@ app.get('/testdata.csv',(req, res)=>{
 app.use('/admin', (req, res) => {
   if (req.isAuthenticated()){
     console.log('authenticated');
-    //res.render(path.join(__dirname, '../Frontend/src/views/admin.ejs'),{});
-    res.sendFile(path.join(__dirname, '../Frontend/src/AdminLogin/index.html'));
+    res.sendFile(path.join(__dirname, '../Frontend/src/AdminVerified/index.html'));
   }else{
-    console.log('unaunthenticated');
-    res.sendFile(path.join(__dirname, '../Frontend/src/AdminLogin/index.html'));
+    console.log('unauthenticated');
+    res.render(path.join(__dirname, '../Frontend/src/views/index.ejs'));
   }
 });
 
 //Handle admin login POST request
-//redirect to AdminLogin if login fails
-//redirect to 
 app.post('/AdminLogin',passport.authenticate('local', {
   successRedirect: '/admin', 
-  failureRedirect: '/admin'
+  failureRedirect: '/admin',
+  failureFlash: true
 }));
-
-/*
-app.get('/styles.css', function(req, res) {
-  res.sendFile(path.join(__dirname, '../Frontend/src/AdminLogin/styles.css'));
-});*/
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,() => console.log(`Server started on port ${PORT}`));

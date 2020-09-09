@@ -30,9 +30,21 @@ body{
     justify-content: center;
 }
 
+div.login{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .table div.login button{
     text-align: center;
     display: inline-block;
+}
+
+.table div.login input{
+    text-align: center;
+    margin: auto
 }
 
 .table table.text-fields{
