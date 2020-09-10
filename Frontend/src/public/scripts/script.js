@@ -1,5 +1,5 @@
-var itemMasterList;
-var itemViewList;
+var itemMasterList; // will contain all possible items
+var itemViewList; // will contain all items that we are displaying to the user at the time
 var url = window.location.href+"testdata.csv";
 initialize();
 
@@ -13,8 +13,8 @@ function initialize() {
     updateViewTable();
 }
 
-//update DOM Table with table
-function updateDOMTable(table) {
+//put the item count text and the table itself (@param) on the page
+function appendTableHTMLToDOM(table) {
     var tableSection = document.getElementsByClassName("table")[0];
     //add table to page
     tableSection.innerHTML = "";
@@ -22,7 +22,7 @@ function updateDOMTable(table) {
 
     //add to item-count
     var itemCount = document.getElementsByTagName("tr").length - 1;
-    var countDisplay = document.createElement("p");
+    var countDisplay = document.createElement("p"); //creates a p HTML tag
     countDisplay.innerHTML = "Displaying " + itemCount + " items from a list of " + itemMasterList.length + ".";
     document.getElementsByClassName("item-count")[0].innerHTML = "";
     document.getElementsByClassName("item-count")[0].appendChild(countDisplay);
@@ -101,7 +101,7 @@ function refresh() {
     updateViewTable();
 }
 
-//create table header
+//create the HTML of the header of display table
 function createTableHeader() {
     var headerRow = document.createElement("tr");
     var headerInfo = [["64%", "Item Name"], ["12%", "Category"], ["12%", "Price Range"], ["12%", "Sign-Up"]];
@@ -114,13 +114,19 @@ function createTableHeader() {
     return headerRow;
 }
 
-function createTableFromList(list) {
+// create the HTML Table from list of Items objects we're displaying (itemViewList)
+function createTableFromList() {
+    sortViewList();
+
     var newTable = document.createElement("table");
     newTable.setAttribute("class", "display-items");
+
     //create header
     var headerRow = createTableHeader();
     newTable.appendChild(headerRow);
-    list.forEach(function (item, index) {
+
+    //create HTML of each Item, which takes one row
+    itemViewList.forEach(function (item, index) {
         newTable.appendChild(item.createTableRowHTML());
     });
     return newTable;
@@ -234,6 +240,7 @@ function createSignUpButtonsHTML() {
     return container;
 }
 
+//enable or disable all the 
 function setElementsDisabled(bool) {
     var elements = document.getElementsByClassName("checkbox");
     for (var i = 0; i < elements.length; i++) {
@@ -253,6 +260,7 @@ function setElementsDisabled(bool) {
     }
 }
 
+// updates itemViewList to be an array containing all Items we're displaying to the user
 function updateViewTable() {
     itemViewList = [];
     //filter first
@@ -269,20 +277,18 @@ function updateViewTable() {
         }
     });
 
-    //get rid if item doesn't have search bar value
+    //get rid of items that don't have search bar value from itemViewList
     var searchPhrase = document.getElementsByClassName("search-bar")[0].value.toLowerCase();
     if (searchPhrase != undefined) {
         for (var i = itemViewList.length - 1; i >= 0; i--) {
             if (!itemViewList[i].name.toLowerCase().includes(searchPhrase)) {
-                itemViewList.splice(i, 1);
+                itemViewList.splice(i, 1); // deletes the item at index i
             }
         }
     }
 
-    sortViewList();
-
-    var table = createTableFromList(itemViewList);
-    updateDOMTable(table);
+    var table = createTableFromList();
+    appendTableHTMLToDOM(table);
 }
 
 class Item {
@@ -298,6 +304,7 @@ class Item {
         this.signUpState = "AVAILABLE";
     }
 
+    // rudimentary category classification using keyword detection
     static getCategory(str) {
         var categories = ["Clothing/Accessory", "Shoes", "Stationery", "Gift Cards"];
         var keys = [["褲", "外套", "手環", "錶", "shirt", "衣"], ["鞋"], ["筆", "文具"], ["券", "元"]];
@@ -311,6 +318,7 @@ class Item {
         return "Miscellaneous";
     }
 
+    // rudimentary budget classification using keyword detection
     static getBudget(str) {
         if (str.includes("大")) {
             return 1200;
@@ -323,10 +331,12 @@ class Item {
         }
     }
 
+    // return attributes relevant to Item's display
     getAttributes() {
         return [this.name, this.category, this.price];
     }
 
+    // return the HTML of a row on the display table of items that belongs to this particular Item
     createTableRowHTML() {
         var row = document.createElement("tr");
         var list = this.getAttributes();
@@ -348,6 +358,7 @@ class Item {
         return row;
     }
 
+    //return the HTML of the sign-up page of the Item
     createItemInfoHTML() {
         var itemInfo = document.createElement("div");
         itemInfo.setAttribute("class", "item-info");

@@ -20,7 +20,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Send CSS to user
-app.use('/',express.static(path.join(__dirname, '../Frontend/src/css')));
+app.use('/',express.static(path.join(__dirname, '../Frontend/src/public')));
 
 
 app.get('/', (req,res) => {
@@ -42,7 +42,7 @@ app.use('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/src/AdminVerified/index.html'));
   }else{
     console.log('unauthenticated');
-    res.render(path.join(__dirname, '../Frontend/src/views/index.ejs'));
+    res.render(path.join(__dirname, '../Frontend/src/views/admin-login.ejs'));
   }
 });
 
