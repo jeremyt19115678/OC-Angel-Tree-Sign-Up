@@ -66,7 +66,14 @@ body{
     justify-content: center;
 }
 
-.table div.buttons{
+.table form{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.table form div.buttons{
     width: 35%;
     display: flex;
     align-items: center;
@@ -77,19 +84,19 @@ body{
     text-align: center;
 }
 
-.table table.text-fields{
+.table form table.text-fields{
     width: 35%;
     border: none;
 }
 
-.table table.text-fields tr td{
+.table form table.text-fields tr td{
     padding: 8px;
 }
 
-.table table.text-fields tr td input.sign-up-input{
+.table form table.text-fields tr td input.sign-up-input{
     width:100%;
 }
 
-.table table.text-fields tr td:first-child{
+.table form table.text-fields tr td:first-child{
     text-align:right;
 }

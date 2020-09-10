@@ -148,116 +148,12 @@ function readCSV() {
     xhr.send();
 }
 
-//show signUp sheet
-//incomplete
-function signUp(id) {
-    //make sure the item is still available as per the spreadsheet
-    //disable the elements on the top of the page
-    setElementsDisabled(true);
-    //display sign-up
-    displaySignUp(id);
-}
-
-function displaySignUp(id) {
-    var tableSection = document.getElementsByClassName("table")[0];
-    tableSection.innerHTML = "";
-    //locate Item with id in field "id"
-    var item = undefined;
-    for (var i = 0; i < itemViewList.length; i++) {
-        if (itemViewList[i].id === id) {
-            item = itemViewList[i];
-            //create sign-up html for the item
-            var itemInfo = item.createItemInfoHTML();
-            var signUpInput = createSignUpInputHTML();
-            var signUpBtns = createSignUpButtonsHTML();
-            tableSection.appendChild(itemInfo);
-            tableSection.appendChild(signUpInput);
-            tableSection.appendChild(signUpBtns);
-            return;
-        }
-    }
-    //if item with id cannot be found
-    alert("Item unavailable. Please try again.");
-    setElementsDisabled(false);
-    updateViewTable();
-}
-
 function checkEmailValid() {
     var email = document.getElementsByClassName("sign-up-input-email").value.toLowerCase;
 }
 
 function checkNameValid() {
 
-}
-
-function exitSignUp() {
-    setElementsDisabled(false);
-    updateViewTable();
-}
-
-function submitInfo() {
-
-}
-
-function createSignUpInputHTML() {
-    var textFields = document.createElement("table");
-    textFields.setAttribute("class", "text-fields");
-    var attributes = [["Name:", "ex) John Doe", "checkNameValid()", "sign-up-input-name"], ["E-mail:", "ex) example@tas.tw", "checkEmailValid()", "sign-up-input-email"], ["Phone Number:", "ex) 0912345678", "checkPhoneValid()", "sign-up-input-phone"]];
-    for (var i = 0; i < attributes.length; i++) {
-        var row = document.createElement("tr");
-        var data = document.createElement("td");
-        data.innerHTML = attributes[i][0];
-        row.appendChild(data);
-        data = document.createElement("td");
-        var textBox = document.createElement("input");
-        textBox.setAttribute("type", "text");
-        textBox.setAttribute("style", "margin-left: auto");
-        textBox.setAttribute("class", attributes[i][3]);
-        textBox.setAttribute("placeholder", attributes[i][1]);
-        textBox.setAttribute("onkeyup", attributes[i][2]);
-        data.appendChild(textBox);
-        row.appendChild(data);
-        textFields.appendChild(row);
-    }
-    console.log(textFields);
-    return textFields;
-}
-
-function createSignUpButtonsHTML() {
-    var container = document.createElement("div");
-    container.setAttribute("class", "buttons");
-    var attributes = [["margin-right: auto;", "exitSignUp()", "Back"], ["margin-left: auto;", "submitInfo()", "Submit"]];
-    for (var i = 0; i < attributes.length; i++) {
-        var div = document.createElement("div");
-        div.setAttribute("style", attributes[i][0]);
-        var btn = document.createElement("button");
-        btn.setAttribute("type", "button");
-        btn.setAttribute("onclick", attributes[i][1]);
-        btn.innerHTML = attributes[i][2];
-        div.appendChild(btn);
-        container.appendChild(div);
-    }
-    return container;
-}
-
-//enable or disable all the 
-function setElementsDisabled(bool) {
-    var elements = document.getElementsByClassName("checkbox");
-    for (var i = 0; i < elements.length; i++) {
-        elements[i].disabled = bool;
-    }
-    elements = document.getElementsByTagName("select");
-    for (var i = 0; i < elements.length; i++) {
-        elements[i].disabled = bool;
-    }
-    elements = document.getElementsByClassName("search-bar");
-    for (var i = 0; i < elements.length; i++) {
-        elements[i].disabled = bool;
-    }
-    elements = document.getElementsByClassName("refresh-button");
-    for (var i = 0; i < elements.length; i++) {
-        elements[i].disabled = bool;
-    }
 }
 
 // updates itemViewList to be an array containing all Items we're displaying to the user
@@ -350,24 +246,11 @@ class Item {
         var td = document.createElement("td");
         var button = document.createElement("button");
         button.setAttribute("type", "button");
-        button.setAttribute("onclick", "signUp(\"" + this.id + "\")");
+        button.setAttribute("onclick", "location.href='/sign-up/" + this.id + "'");
         button.innerHTML = "Sign-Up";
         td.appendChild(button);
         row.appendChild(td);
 
         return row;
-    }
-
-    //return the HTML of the sign-up page of the Item
-    createItemInfoHTML() {
-        var itemInfo = document.createElement("div");
-        itemInfo.setAttribute("class", "item-info");
-        var text1 = document.createElement("p");
-        text1.innerHTML = "You're signing up for the following item:";
-        itemInfo.appendChild(text1);
-        var text2 = document.createElement("p");
-        text2.innerHTML = "Item Name: " + this.name;
-        itemInfo.appendChild(text2);
-        return itemInfo;
     }
 }

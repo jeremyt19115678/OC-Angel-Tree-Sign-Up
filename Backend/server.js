@@ -58,5 +58,10 @@ app.post('/AdminLogin',passport.authenticate('local', {
   failureFlash: true
 }));
 
+//Handle sign-up POST request
+app.post('/sign-up', (req, res) =>{
+  res.send([req.body.name, req.body.email, req.body.phone]);
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,() => console.log(`Server started on port ${PORT}`));

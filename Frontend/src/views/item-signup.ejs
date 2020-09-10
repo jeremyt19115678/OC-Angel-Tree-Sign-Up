@@ -14,34 +14,36 @@
             <p>You're signing up for the following item:</p>
             <p>Item Name: <%= item.name %></p>
         </div>
-        <table class="text-fields">
-            <tr>
-                <td>Name:</td>
-                <td>
-                    <input type="text" style="margin-left: auto" class="sign-up-input-name" placeholder="ex) John Doe" onkeyup="checkNameValid()">
-                </td>
-            </tr>
-            <tr>
-                <td>E-mail:</td>
-                <td>
-                    <input type="text" style="margin-left: auto" class="sign-up-input-email" placeholder="ex) example@tas.tw" onkeyup="checkEmailValid()">
-                </td>
-            </tr>
-            <tr>
-                <td>Phone Number:</td>
-                <td>
-                    <input type="text" style="margin-left: auto" class="sign-up-input-phone" placeholder="ex) 0912345678" onkeyup="checkPhoneValid()">
-                </td>
-            </tr>
-        </table>
-        <div class="buttons">
-            <div style="margin-right: auto;">
-                <button type="button" onclick="exitSignUp()">Back</button>
+        <form action='/sign-up' method="POST">
+            <table class="text-fields">
+                <tr>
+                    <td>Name:</td>
+                    <td>
+                        <input type="text" style="margin-left: auto" class="sign-up-input-name" placeholder="ex) John Doe" onkeyup="checkNameValid()" name="name" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>E-mail:</td>
+                    <td>
+                        <input type="text" style="margin-left: auto" class="sign-up-input-email" placeholder="ex) example@tas.tw" onkeyup="checkEmailValid()" name="email" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Phone Number:</td>
+                    <td>
+                        <input type="text" style="margin-left: auto" class="sign-up-input-phone" placeholder="ex) 0912345678" onkeyup="checkPhoneValid()" name="phone" required>
+                    </td>
+                </tr>
+            </table>
+            <div class="buttons">
+                <div style="margin-right: auto;">
+                    <button type="button" onclick="location.href='/'">Back</button>
+                </div>
+                <div style="margin-left: auto;">
+                    <button type="submit">Submit</button>
+                </div>
             </div>
-            <div style="margin-left: auto;">
-                <button type="button" onclick="submitInfo()">Submit</button>
-            </div>
-        </div>
+        </form>
     </section>
     <script src="/scripts/script.js"></script>
 </body></html>
