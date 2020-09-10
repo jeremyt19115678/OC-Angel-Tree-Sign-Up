@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>OC </title>
+    <link rel="stylesheet" href="/css/home-styles.css">
+<style data-styled-components=""></style></head>
+
+<body class="vsc-initialized">
+    <header>TAS OC 2020 Games and Gift Sign-Up</header>
+    <section class="table">
+        <div class="item-info">
+            <p>You're signing up for the following item:</p>
+            <p>Item Name: <%= item.name %></p>
+        </div>
+        <table class="text-fields">
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <input type="text" style="margin-left: auto" class="sign-up-input-name" placeholder="ex) John Doe" onkeyup="checkNameValid()">
+                </td>
+            </tr>
+            <tr>
+                <td>E-mail:</td>
+                <td>
+                    <input type="text" style="margin-left: auto" class="sign-up-input-email" placeholder="ex) example@tas.tw" onkeyup="checkEmailValid()">
+                </td>
+            </tr>
+            <tr>
+                <td>Phone Number:</td>
+                <td>
+                    <input type="text" style="margin-left: auto" class="sign-up-input-phone" placeholder="ex) 0912345678" onkeyup="checkPhoneValid()">
+                </td>
+            </tr>
+        </table>
+        <div class="buttons">
+            <div style="margin-right: auto;">
+                <button type="button" onclick="exitSignUp()">Back</button>
+            </div>
+            <div style="margin-left: auto;">
+                <button type="button" onclick="submitInfo()">Submit</button>
+            </div>
+        </div>
+    </section>
+    <script src="/scripts/script.js"></script>
+</body></html>

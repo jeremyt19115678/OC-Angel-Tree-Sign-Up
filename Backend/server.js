@@ -35,6 +35,11 @@ app.get('/testdata.csv',(req, res)=>{
   res.sendFile(path.join(__dirname,'testdata.csv'));
 });
 
+// Serve the sign-up page
+app.get('/sign-up/:itemId', (req, res) =>{
+  res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': req.params.itemId}})
+});
+
 //Serve admin login page
 app.use('/admin', (req, res) => {
   if (req.isAuthenticated()){
