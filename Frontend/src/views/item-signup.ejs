@@ -14,7 +14,7 @@
             <p>You're signing up for the following item:</p>
             <p>Item Name: <%= item.name %></p>
         </div>
-        <form action='/sign-up' method="POST">
+        <form action='/sign-up/<%= item.name%>' method="POST">
             <table class="text-fields">
                 <tr>
                     <td>Name:</td>

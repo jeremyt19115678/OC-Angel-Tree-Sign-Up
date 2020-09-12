@@ -3,10 +3,12 @@ const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('express-flash');
+const itemLists = require('./all-things-items.js');
 const app = express();
 
 // initialize Passport by passing in passport instance
 const initializePassport = require('./passport-config.js');
+const { isNullOrUndefined } = require('util');
 initializePassport(passport);
 
 app.use(flash());
@@ -31,13 +33,24 @@ app.get('/', (req,res) => {
 app.set('view engine', 'ejs');
 
 //send back the data in csv format needed for table
-app.get('/testdata.csv',(req, res)=>{
-  res.sendFile(path.join(__dirname,'testdata.csv'));
+app.get('/itemList',(req, res)=>{
+  let fetchedItemViewList = itemLists.fetchAvailableItems();
+  res.json(fetchedItemViewList);
+  
+  //  res.sendFile(path.join(__dirname,'testdata.csv'));
 });
 
 // Serve the sign-up page
 app.get('/sign-up/:itemId', (req, res) =>{
-  res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': req.params.itemId}})
+  // look up the object
+  let fetchedItem = itemLists.fetchItemWithID(req.params.itemId);
+  // render accordingly
+  console.log(fetchedItem);
+  if (fetchedItem != null){
+    res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': fetchedItem.name}})
+  }else{
+    res.send("we can't find an item with ID " + req.params.itemId);
+  }
 });
 
 //Serve admin login page
@@ -59,8 +72,18 @@ app.post('/AdminLogin',passport.authenticate('local', {
 }));
 
 //Handle sign-up POST request
-app.post('/sign-up', (req, res) =>{
-  res.send([req.body.name, req.body.email, req.body.phone]);
+app.post('/sign-up/:itemId', (req, res) =>{
+  let user = {
+    'name': req.body.name,
+    'email': req.body.email,
+    'phone': req.body.phone,
+    'itemId': req.params.itemId
+  };
+  res.send(user);
+  // write the new user into the json
+  // take the item out of available-items.json
+  // write the user data into all-items.json
+  // res.send([req.body.name, req.body.email, req.body.phone]);
 });
 
 const PORT = process.env.PORT || 3000;

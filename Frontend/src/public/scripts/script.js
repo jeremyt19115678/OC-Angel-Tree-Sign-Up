@@ -1,6 +1,5 @@
 var itemMasterList; // will contain all possible items
 var itemViewList; // will contain all items that we are displaying to the user at the time
-var url = window.location.href+"testdata.csv";
 initialize();
 
 
@@ -8,9 +7,8 @@ function initialize() {
     //fetch itemMasterList
     itemMasterList = [];
     itemViewList = [];
-    console.log(window.location.href);
     readCSV();
-    updateViewTable();
+    //updateItemViewList();
 }
 
 //put the item count text and the table itself (@param) on the page
@@ -98,7 +96,7 @@ function merge(left, right, hierarchy) {
 //update HTML according to masterlist
 function refresh() {
     readCSV();
-    updateViewTable();
+    //updateItemViewList();
 }
 
 //create the HTML of the header of display table
@@ -127,23 +125,44 @@ function createTableFromList() {
 
     //create HTML of each Item, which takes one row
     itemViewList.forEach(function (item, index) {
-        newTable.appendChild(item.createTableRowHTML());
+        newTable.appendChild(createTableRowHTML(item));
     });
     return newTable;
+}
+
+// return the HTML of a row on the display table of items that belongs to this particular Item
+function createTableRowHTML(item) {
+    var row = document.createElement("tr");
+    var list = [item.name, item.category, item.price];
+
+    for (var i = 0; i < list.length; i++) {
+        var data = document.createElement("td");
+        data.innerHTML = list[i];
+        row.appendChild(data);
+    }
+
+    var td = document.createElement("td");
+    var button = document.createElement("button");
+    button.setAttribute("type", "button");
+    button.setAttribute("onclick", "location.href='/sign-up/" + item.id + "'");
+    button.innerHTML = "Sign-Up";
+    td.appendChild(button);
+    row.appendChild(td);
+
+    return row;
 }
 
 //update the masterlist according to CSV
 function readCSV() {
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", url);
+    //console.log(url);
+    xhr.open("GET", window.location.href+"itemList");
     xhr.onload = function () {
-        var table = xhr.responseText.split("\n");
-        itemMasterList = [];
-        for (var i = 0; i < table.length; i++) {
-            table[i] = table[i].split(",");
-            itemMasterList.push(new Item(table[i]));
-        }
-        updateViewTable();
+        //console.log("This is the response text.");
+        //console.log(xhr.responseText);
+        console.log(xhr.responseText);
+        itemMasterList = JSON.parse(xhr.responseText).availableItems;
+        updateItemViewList();
     };
     xhr.send();
 }
@@ -157,7 +176,7 @@ function checkNameValid() {
 }
 
 // updates itemViewList to be an array containing all Items we're displaying to the user
-function updateViewTable() {
+function updateItemViewList() {
     itemViewList = [];
     //filter first
     var filters = [];
@@ -185,72 +204,4 @@ function updateViewTable() {
 
     var table = createTableFromList();
     appendTableHTMLToDOM(table);
-}
-
-class Item {
-    //structure based on 2018 table
-    constructor(data) {
-        this.name = data[6];
-        if (data[7].trim().length != 0) {
-            this.name += " (" + data[7] + ")";
-        }
-        this.price = Item.getBudget(data[4]);
-        this.id = data[1];
-        this.category = Item.getCategory(data[6]);
-        this.signUpState = "AVAILABLE";
-    }
-
-    // rudimentary category classification using keyword detection
-    static getCategory(str) {
-        var categories = ["Clothing/Accessory", "Shoes", "Stationery", "Gift Cards"];
-        var keys = [["褲", "外套", "手環", "錶", "shirt", "衣"], ["鞋"], ["筆", "文具"], ["券", "元"]];
-        for (var i = 0; i < keys.length; i++) {
-            for (var j = 0; j < keys[i].length; j++) {
-                if (str.toLowerCase().includes(keys[i][j])) {
-                    return categories[i];
-                }
-            }
-        }
-        return "Miscellaneous";
-    }
-
-    // rudimentary budget classification using keyword detection
-    static getBudget(str) {
-        if (str.includes("大")) {
-            return 1200;
-        } else if (str.includes("高")) {
-            return 1000;
-        } else if (str.includes("中")) {
-            return 800;
-        } else {
-            return 600;
-        }
-    }
-
-    // return attributes relevant to Item's display
-    getAttributes() {
-        return [this.name, this.category, this.price];
-    }
-
-    // return the HTML of a row on the display table of items that belongs to this particular Item
-    createTableRowHTML() {
-        var row = document.createElement("tr");
-        var list = this.getAttributes();
-
-        for (var i = 0; i < list.length; i++) {
-            var data = document.createElement("td");
-            data.innerHTML = list[i];
-            row.appendChild(data);
-        }
-
-        var td = document.createElement("td");
-        var button = document.createElement("button");
-        button.setAttribute("type", "button");
-        button.setAttribute("onclick", "location.href='/sign-up/" + this.id + "'");
-        button.innerHTML = "Sign-Up";
-        td.appendChild(button);
-        row.appendChild(td);
-
-        return row;
-    }
 }
