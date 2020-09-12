@@ -33,6 +33,14 @@ function fetchAvailableItems(){
     return parsedData;
 }
 
+// reads from all-items.json
+// NOT meant to be exported (unsafe)
+function fetchAllItems(){
+    let rawdata = fs.readFileSync(path.join(__dirname,'all-items.json'));
+    let parsedData = JSON.parse(rawdata);
+    return parsedData;
+}
+
 // look through all-items.json and return the item with the particular id
 function fetchItemWithID(id){
     let rawdata = fs.readFileSync(path.join(__dirname,'all-items.json'));
@@ -40,8 +48,29 @@ function fetchItemWithID(id){
     return parsedData.allItems.find(elements => elements.id === id);
 }
 
-function updateItems(){
+// update all-items.json and available-items.json given that the user has adopted a new Item @param
+function updateItemLists(adoptedItem){
+    //remove the adoptedItem out of available-items.json
+    let availableItems = fetchAvailableItems()['availableItems'];
+    let indexInAvailableItems = availableItems.findIndex(element => element.id === adoptedItem.id);
+    if (indexInAvailableItems !== 1){
+        availableItems.splice(indexInAvailableItems, 1);
+    }else{
+        return 'Something went wrong.';
+    }
+    let availableItemsJSON = JSON.stringify({'availableItems': availableItems}, null, 2);
+    fs.writeFileSync(path.join(__dirname,'available-items.json'), availableItemsJSON);
 
+    //replace the old adoptedItem in all-items.json with the new one
+    let allItems = fetchAllItems()['allItems'];
+    let indexInAllItems = allItems.findIndex(element => element.id === adoptedItem.id);
+    if (indexInAllItems !== 1){
+        allItems[indexInAllItems] = adoptedItem;
+    }else{
+        return 'Something went wrong.';
+    }
+    let allItemsJSON = JSON.stringify({'allItems': allItems}, null, 2);
+    fs.writeFileSync(path.join(__dirname,'all-items.json'), allItemsJSON);
 }
 
 class Item {
@@ -85,4 +114,4 @@ class Item {
     }
 }
 
-module.exports = {'fetchAvailableItems': fetchAvailableItems, 'fetchItemWithID': fetchItemWithID};
+module.exports = {'fetchAvailableItems': fetchAvailableItems, 'fetchItemWithID': fetchItemWithID, 'updateItemLists': updateItemLists};

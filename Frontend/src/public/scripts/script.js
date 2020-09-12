@@ -4,11 +4,9 @@ initialize();
 
 
 function initialize() {
-    //fetch itemMasterList
     itemMasterList = [];
     itemViewList = [];
-    readCSV();
-    //updateItemViewList();
+    fetchNewestLists();
 }
 
 //put the item count text and the table itself (@param) on the page
@@ -27,6 +25,7 @@ function appendTableHTMLToDOM(table) {
 }
 
 //read the select tag and set up sort hierarchy
+// 
 function sortViewList() {
     var primarySort = document.getElementsByTagName("select")[0].value;
     var hierarchy = [];
@@ -41,6 +40,7 @@ function sortViewList() {
 }
 
 // Merge Sort Implentation (Recursion)
+// NOT directly called (Utility Function)
 function mergeSort(unsortedArray, hierarchy) {
     // No need to sort the array if the array only has one element or empty
     if (unsortedArray.length <= 1) {
@@ -60,6 +60,7 @@ function mergeSort(unsortedArray, hierarchy) {
 }
 
 // Merge the two arrays: left and right
+// NOT directly called (Utility Function)
 function merge(left, right, hierarchy) {
     let resultArray = [], leftIndex = 0, rightIndex = 0;
 
@@ -95,11 +96,11 @@ function merge(left, right, hierarchy) {
 //update masterlist
 //update HTML according to masterlist
 function refresh() {
-    readCSV();
-    //updateItemViewList();
+    fetchNewestLists();
 }
 
 //create the HTML of the header of display table
+// NOT directly called (Utility Function)
 function createTableHeader() {
     var headerRow = document.createElement("tr");
     var headerInfo = [["64%", "Item Name"], ["12%", "Category"], ["12%", "Price Range"], ["12%", "Sign-Up"]];
@@ -113,6 +114,7 @@ function createTableHeader() {
 }
 
 // create the HTML Table from list of Items objects we're displaying (itemViewList)
+// NOT directly called (Utility Function)
 function createTableFromList() {
     sortViewList();
 
@@ -131,6 +133,7 @@ function createTableFromList() {
 }
 
 // return the HTML of a row on the display table of items that belongs to this particular Item
+// NOT directly called (Utility Function)
 function createTableRowHTML(item) {
     var row = document.createElement("tr");
     var list = [item.name, item.category, item.price];
@@ -152,8 +155,9 @@ function createTableRowHTML(item) {
     return row;
 }
 
-//update the masterlist according to CSV
-function readCSV() {
+//fetches the newest itemLists from backend
+//renders the newest itemViewList onscreen by calling updateItemViewList
+function fetchNewestLists() {
     let xhr = new XMLHttpRequest();
     //console.log(url);
     xhr.open("GET", window.location.href+"itemList");
@@ -176,6 +180,8 @@ function checkNameValid() {
 }
 
 // updates itemViewList to be an array containing all Items we're displaying to the user
+// displays itemViewList to the user
+// called directly
 function updateItemViewList() {
     itemViewList = [];
     //filter first

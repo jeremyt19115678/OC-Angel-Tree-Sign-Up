@@ -14,7 +14,7 @@
             <p>You're signing up for the following item:</p>
             <p>Item Name: <%= item.name %></p>
         </div>
-        <form action='/sign-up/<%= item.name%>' method="POST">
+        <form action='/sign-up/<%= item.id%>' method="POST">
             <table class="text-fields">
                 <tr>
                     <td>Name:</td>
@@ -45,5 +45,4 @@
             </div>
         </form>
     </section>
-    <script src="/scripts/script.js"></script>
 </body></html>

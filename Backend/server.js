@@ -9,6 +9,7 @@ const app = express();
 // initialize Passport by passing in passport instance
 const initializePassport = require('./passport-config.js');
 const { isNullOrUndefined } = require('util');
+const { fetchItemWithID } = require('./all-things-items.js');
 initializePassport(passport);
 
 app.use(flash());
@@ -32,7 +33,7 @@ app.get('/', (req,res) => {
 // used for rendering using ejs
 app.set('view engine', 'ejs');
 
-//send back the data in csv format needed for table
+//send frontend the available items
 app.get('/itemList',(req, res)=>{
   let fetchedItemViewList = itemLists.fetchAvailableItems();
   res.json(fetchedItemViewList);
@@ -45,9 +46,8 @@ app.get('/sign-up/:itemId', (req, res) =>{
   // look up the object
   let fetchedItem = itemLists.fetchItemWithID(req.params.itemId);
   // render accordingly
-  console.log(fetchedItem);
   if (fetchedItem != null){
-    res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': fetchedItem.name}})
+    res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': fetchedItem.name, 'id': fetchedItem.id}})
   }else{
     res.send("we can't find an item with ID " + req.params.itemId);
   }
@@ -73,14 +73,22 @@ app.post('/AdminLogin',passport.authenticate('local', {
 
 //Handle sign-up POST request
 app.post('/sign-up/:itemId', (req, res) =>{
+  //represent the user as a json
   let user = {
     'name': req.body.name,
     'email': req.body.email,
     'phone': req.body.phone,
-    'itemId': req.params.itemId
   };
-  res.send(user);
-  // write the new user into the json
+  item = itemLists.fetchItemWithID(req.params.itemId);
+  if (item == null){
+    res.send("The item you're signing up for doesn't exist. Please try again.");
+  }else if (item.adopter != null){
+    res.send("The item you're signing up for is no longer available. Please try again.");
+  }else{
+    item.adopter = user;
+    itemLists.updateItemLists(item);
+    res.send(`Thanks ${user.name}, you have signed up for the following item. You should receive an email shortly.\nYour item: ${item.name}`);
+  }
   // take the item out of available-items.json
   // write the user data into all-items.json
   // res.send([req.body.name, req.body.email, req.body.phone]);

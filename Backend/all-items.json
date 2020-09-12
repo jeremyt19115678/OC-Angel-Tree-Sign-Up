@@ -1237,7 +1237,12 @@
       "price": 600,
       "id": "287-4",
       "category": "Miscellaneous",
-      "adopter": null
+      "adopter": {
+        "name": "aoeu",
+        "email": "a@a",
+        "phone": "0987654321",
+        "itemId": "287-4"
+      }
     },
     {
       "name": "運動鞋/歐規36號/粉紅色",
@@ -1902,7 +1907,12 @@
       "price": 1000,
       "id": "56-2",
       "category": "Stationery",
-      "adopter": null
+      "adopter": {
+        "name": "aoeu",
+        "email": "a@a",
+        "phone": "0987654321",
+        "itemId": "56-2"
+      }
     },
     {
       "name": "素描繪本組",
