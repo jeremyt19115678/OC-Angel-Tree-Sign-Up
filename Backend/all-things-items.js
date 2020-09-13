@@ -1,12 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 
-readCSV();
+if (!fs.existsSync(path.join(__dirname,'all-items.json')) || !fs.existsSync(path.join(__dirname,'available-items.json'))){
+    console.log("Lack either all-items.json or available-items.json.\nRewriting these files from CSV.");
+    fetchItemListsFromCSV();
+}
 
 // called when we get a brand-new CSV (we assume all items are not adopted)
 // populate allItems and availableItems with Item Objects
 // write all-items.json and available-items.json
-function readCSV() {
+function fetchItemListsFromCSV() {
     let allItems = [], availableItems = [];
     fs.readFile(path.join(__dirname,'./testdata.csv'), 'utf8', function (err,data) {
         if (err) {
@@ -114,4 +117,4 @@ class Item {
     }
 }
 
-module.exports = {'fetchAvailableItems': fetchAvailableItems, 'fetchItemWithID': fetchItemWithID, 'updateItemLists': updateItemLists};
+module.exports = {'fetchAvailableItems': fetchAvailableItems, 'fetchItemWithID': fetchItemWithID, 'updateItemLists': updateItemLists, 'fetchItemListsFromCSV': fetchItemListsFromCSV};

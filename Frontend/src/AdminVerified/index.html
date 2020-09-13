@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <header>TAS OC 2019 Games and Gift Sign-Up</header>
+    <header>TAS OC 2020 Games and Gift Sign-Up</header>
     <div class="login">
         <p>Admin Logged In</p>
     </div>
@@ -18,9 +18,9 @@
         <p>Upload Gift Wishlist in <span style="color:red">.csv</span> file format below.</p>
     </div>
     <section class="table">
-        <form action="/CSVUpload" method="POST">
+        <form action="/CSVUpload" method="POST" enctype="multipart/form-data">
             <div class="login">
-                <input type = "file" name = "csv" accept = ".csv">
+                <input type = "file" name = "csv" accept = ".csv" required>
             </div>
             <div class = "login">
             <button type="submit">Upload</button>
