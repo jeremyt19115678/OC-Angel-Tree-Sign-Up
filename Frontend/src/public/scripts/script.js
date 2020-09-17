@@ -164,19 +164,10 @@ function fetchNewestLists() {
     xhr.onload = function () {
         //console.log("This is the response text.");
         //console.log(xhr.responseText);
-        console.log(xhr.responseText);
         itemMasterList = JSON.parse(xhr.responseText).availableItems;
         updateItemViewList();
     };
     xhr.send();
-}
-
-function checkEmailValid() {
-    var email = document.getElementsByClassName("sign-up-input-email").value.toLowerCase;
-}
-
-function checkNameValid() {
-
 }
 
 // updates itemViewList to be an array containing all Items we're displaying to the user

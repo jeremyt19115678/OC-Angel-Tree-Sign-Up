@@ -14,24 +14,29 @@
             <p>You're signing up for the following item:</p>
             <p>Item Name: <%= item.name %></p>
         </div>
+        <% if(error.message){ %>
+            <div class = "login">
+            <p style = "color:RED"> <%=error.message %></p>
+            </div>
+        <% } %>
         <form action='/sign-up/<%= item.id%>' method="POST">
             <table class="text-fields">
                 <tr>
                     <td>Name:</td>
                     <td>
-                        <input type="text" style="margin-left: auto" class="sign-up-input-name" placeholder="ex) John Doe" onkeyup="checkNameValid()" name="name" required>
+                        <input type="text" style="margin-left: auto" class="sign-up-input-name" placeholder="ex) John Doe" name="name" required>
                     </td>
                 </tr>
                 <tr>
                     <td>E-mail:</td>
                     <td>
-                        <input type="text" style="margin-left: auto" class="sign-up-input-email" placeholder="ex) example@tas.tw" onkeyup="checkEmailValid()" name="email" required>
+                        <input type="text" style="margin-left: auto" class="sign-up-input-email" placeholder="ex) example@tas.tw" name="email" required>
                     </td>
                 </tr>
                 <tr>
                     <td>Phone Number:</td>
                     <td>
-                        <input type="text" style="margin-left: auto" class="sign-up-input-phone" placeholder="ex) 0912345678" onkeyup="checkPhoneValid()" name="phone" required>
+                        <input type="text" style="margin-left: auto" class="sign-up-input-phone" placeholder="ex) 0912345678" name="phone" required>
                     </td>
                 </tr>
             </table>

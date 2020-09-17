@@ -55,17 +55,15 @@ app.get('/sign-up/:itemId', (req, res) =>{
   }else if(fetchedItem.adopter != null){
     res.send("This item is no longer available. Please try again.");
   }else{
-    res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': fetchedItem.name, 'id': fetchedItem.id}})
+    res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': fetchedItem.name, 'id': fetchedItem.id}, error: {'message': null}})
   }
 });
 
 //Serve admin login page
 app.use('/admin', (req, res) => {
   if (req.isAuthenticated()){
-    console.log('authenticated');
     res.sendFile(path.join(__dirname, '../Frontend/src/AdminVerified/index.html'));
   }else{
-    console.log('unauthenticated');
     res.render(path.join(__dirname, '../Frontend/src/views/admin-login.ejs'));
   }
 });
@@ -85,19 +83,20 @@ app.post('/sign-up/:itemId', (req, res) =>{
     'email': req.body.email,
     'phone': req.body.phone,
   };
-  item = itemLists.fetchItemWithID(req.params.itemId);
-  if (item == null){
+
+  let fetchedItem = itemLists.fetchItemWithID(req.params.itemId);
+
+  if (fetchedItem == null){
     res.send("The item you're signing up for doesn't exist. Please try again.");
-  }else if (item.adopter != null){
+  }else if (fetchedItem.adopter != null){
     res.send("The item you're signing up for is no longer available. Please try again.");
-  }else{
-    item.adopter = user;
-    itemLists.updateItemLists(item);
-    res.send(`Thanks ${user.name}, you have signed up for the following item. You should receive an email shortly.\nYour item: ${item.name}`);
+  }else if (!isValidEmail(user.email) || !isValidPhone(user.phone)){ //check if user email and phone are valid
+    return res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': fetchedItem.name, 'id': fetchedItem.id}, error: {'message': "Please make sure you're using a valid TAS email address or Taiwanese phone number."}});
+  } else {
+    fetchedItem.adopter = user;
+    itemLists.updateItemLists(fetchedItem);
+    res.send(`Thanks ${user.name}, you have signed up for the following item. You should receive an email shortly.\nYour item: ${fetchedItem.name}`);
   }
-  // take the item out of available-items.json
-  // write the user data into all-items.json
-  // res.send([req.body.name, req.body.email, req.body.phone]);
 });
 
 app.post('/CSVUpload', checkIfAuthenticated, (req, res) =>{
@@ -131,11 +130,24 @@ app.post('/CSVUpload', checkIfAuthenticated, (req, res) =>{
   }
 });
 
+//middleware used to restrict access
 function checkIfAuthenticated(req, res, next){
   if (req.isAuthenticated){
     return next();
   }
   res.redirect('/admin');
+}
+
+// regex matching function for emails
+function isValidEmail(email){
+  let validEmailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return validEmailRegex.test(email);
+}
+
+// regex matching function for phone numbers
+function isValidPhone(phone){
+  let validPhoneRegex = /^0(([249][0-9]{8})|([3-8][0-9]{7}))$/;
+  return validPhoneRegex.test(phone);
 }
 
 const PORT = process.env.PORT || 3000;

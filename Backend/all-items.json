@@ -257,7 +257,11 @@
       "price": 1200,
       "id": "119-2",
       "category": "Miscellaneous",
-      "adopter": null
+      "adopter": {
+        "name": "jer",
+        "email": "21tingyuy@students.tas.tw",
+        "phone": "0907125125"
+      }
     },
     {
       "name": "電腦水冷散熱器(電腦散熱器)",
@@ -1902,7 +1906,11 @@
       "price": 1000,
       "id": "56-2",
       "category": "Stationery",
-      "adopter": null
+      "adopter": {
+        "name": "aoeu",
+        "email": "19jeremyt@alumni.tas.tw",
+        "phone": "0987654321"
+      }
     },
     {
       "name": "素描繪本組",
