@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <% if(error.message){ %>
+        <title>Error</title>
+    <% }else{ %>
+        <title>Message</title>
+    <% } %>
+    <link rel="stylesheet" href="/css/message-styles.css">
+</head>
+
+<body>
+    <header>TAS OC 2020 Games and Gift Sign-Up</header>
+    <section>
+        <div>
+            <% if(error.message){ %>
+                <p>Error</p>
+            <% }else{ %>
+                <p>Message</p>
+            <% } %>
+        </div>
+            <% if(error.message){ %>
+            <div>
+            <p style = "color:RED"><%= error.message %></p>
+            </div>
+            <% } %>
+            <% if (system.message){ %>
+            <div>
+                <p> <%= system.message %> </p>
+            </div>
+            <% } %>
+        <div>
+        <button type="button" onclick="location.href='/'">Back To Home</button>
+        </div>
+    </section>
+</body>
+
+</html>

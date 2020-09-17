@@ -49,14 +49,17 @@ app.get('/itemList',(req, res)=>{
 app.get('/sign-up/:itemId', (req, res) =>{
   // look up the object
   let fetchedItem = itemLists.fetchItemWithID(req.params.itemId);
+  let renderText = emptyRenderText();
+
   // render accordingly
   if (fetchedItem == null){
-    res.send("we can't find an item with ID " + req.params.itemId);
+    renderText.error.message = `We can't find an item with ID ${req.params.itemId}.`;
   }else if(fetchedItem.adopter != null){
-    res.send("This item is no longer available. Please try again.");
+    renderText.error.message = "This item is no longer available. Please try again.";
   }else{
-    res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': fetchedItem.name, 'id': fetchedItem.id}, error: {'message': null}})
+    return res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': fetchedItem.name, 'id': fetchedItem.id}, error: {'message': null}})
   }
+  return res.render(path.join(__dirname, '../Frontend/src/views/user-message.ejs'), renderText);
 });
 
 //Serve admin login page
@@ -84,19 +87,22 @@ app.post('/sign-up/:itemId', (req, res) =>{
     'phone': req.body.phone,
   };
 
+  let renderText = emptyRenderText();
+
   let fetchedItem = itemLists.fetchItemWithID(req.params.itemId);
 
   if (fetchedItem == null){
-    res.send("The item you're signing up for doesn't exist. Please try again.");
+    renderText.error.message = "The item you're signing up for doesn't exist. Please try again.";
   }else if (fetchedItem.adopter != null){
-    res.send("The item you're signing up for is no longer available. Please try again.");
+    renderText.error.message = "The item you're signing up for is no longer available. Please try again.";
   }else if (!isValidEmail(user.email) || !isValidPhone(user.phone)){ //check if user email and phone are valid
     return res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': fetchedItem.name, 'id': fetchedItem.id}, error: {'message': "Please make sure you're using a valid TAS email address or Taiwanese phone number."}});
   } else {
     fetchedItem.adopter = user;
     itemLists.updateItemLists(fetchedItem);
-    res.send(`Thanks ${user.name}, you have signed up for the following item. You should receive an email shortly.\nYour item: ${fetchedItem.name}`);
+    renderText.system.message = `Thanks ${user.name}, you have signed up for the following item. You should receive an email shortly.\nYour item: ${fetchedItem.name}`;
   }
+  return res.render(path.join(__dirname, '../Frontend/src/views/user-message.ejs'), renderText);
 });
 
 app.post('/CSVUpload', checkIfAuthenticated, (req, res) =>{
@@ -148,6 +154,18 @@ function isValidEmail(email){
 function isValidPhone(phone){
   let validPhoneRegex = /^0(([249][0-9]{8})|([3-8][0-9]{7}))$/;
   return validPhoneRegex.test(phone);
+}
+
+// returns an empty Object used for rendering user-message.ejs
+function emptyRenderText(){
+  return {
+    error:{
+      'message': null
+    },
+    system:{
+      'message': null
+    }
+  };
 }
 
 const PORT = process.env.PORT || 3000;

@@ -1,0 +1,11 @@
+body{
+    background-color: #b9d9ff;
+}
+
+section{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    margin: 5px;
+    justify-content: center;
+}

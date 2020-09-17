@@ -359,7 +359,11 @@
       "price": 600,
       "id": "141-4",
       "category": "Miscellaneous",
-      "adopter": null
+      "adopter": {
+        "name": "Jeremy",
+        "email": "jeremyt1114@gmail.com",
+        "phone": "0987654321"
+      }
     },
     {
       "name": "誠品禮券1000元",
@@ -1171,7 +1175,11 @@
       "price": 1000,
       "id": "281-1",
       "category": "Clothing/Accessory",
-      "adopter": null
+      "adopter": {
+        "name": "test",
+        "email": "test@iwishimatcornell.edu",
+        "phone": "0987654321"
+      }
     },
     {
       "name": "防水手錶/藍色",
@@ -1241,7 +1249,11 @@
       "price": 600,
       "id": "287-4",
       "category": "Miscellaneous",
-      "adopter": null
+      "adopter": {
+        "name": "ttt",
+        "email": "eaterofchocolate@gmail.com",
+        "phone": "0975102033"
+      }
     },
     {
       "name": "運動鞋/歐規36號/粉紅色",
@@ -1773,7 +1785,11 @@
       "price": 600,
       "id": "347-1",
       "category": "Miscellaneous",
-      "adopter": null
+      "adopter": {
+        "name": "aoeu",
+        "email": "test@test.com",
+        "phone": "0987654321"
+      }
     },
     {
       "name": "書包/紅色",
