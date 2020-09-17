@@ -96,11 +96,11 @@ app.post('/sign-up/:itemId', (req, res) =>{
   }else if (fetchedItem.adopter != null){
     renderText.error.message = "The item you're signing up for is no longer available. Please try again.";
   }else if (!isValidEmail(user.email) || !isValidPhone(user.phone)){ //check if user email and phone are valid
-    return res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': fetchedItem.name, 'id': fetchedItem.id}, error: {'message': "Please make sure you're using a valid TAS email address or Taiwanese phone number."}});
+    return res.render(path.join(__dirname, '../Frontend/src/views/item-signup.ejs'), {item: {'name': fetchedItem.name, 'id': fetchedItem.id}, error: {'message': "Please make sure you're using a valid email address or Taiwanese phone number."}});
   } else {
     fetchedItem.adopter = user;
     itemLists.updateItemLists(fetchedItem);
-    renderText.system.message = `Thanks ${user.name}, you have signed up for the following item. You should receive an email shortly.\nYour item: ${fetchedItem.name}`;
+    renderText.system.message = `Thanks ${user.name}, you have signed up for the following item: ${fetchedItem.name}`;
   }
   return res.render(path.join(__dirname, '../Frontend/src/views/user-message.ejs'), renderText);
 });

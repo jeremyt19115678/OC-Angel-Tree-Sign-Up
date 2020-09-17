@@ -1093,13 +1093,6 @@
       "adopter": null
     },
     {
-      "name": "hello kitty 列車(火車或汽車)",
-      "price": 600,
-      "id": "275-2",
-      "category": "Miscellaneous",
-      "adopter": null
-    },
-    {
       "name": "籃球鞋/日規23.5號/黑色",
       "price": 600,
       "id": "276-1",
@@ -1961,13 +1954,6 @@
       "adopter": null
     },
     {
-      "name": "XXXL運動長褲/160CM 78KG",
-      "price": 1000,
-      "id": "273-1",
-      "category": "Clothing/Accessory",
-      "adopter": null
-    },
-    {
       "name": "益智遊戲",
       "price": 600,
       "id": "273-2",
@@ -2034,13 +2020,6 @@
       "name": "學齡前益智遊戲",
       "price": 600,
       "id": "357-1",
-      "category": "Miscellaneous",
-      "adopter": null
-    },
-    {
-      "name": "保溫瓶/0.36L/黑色",
-      "price": 800,
-      "id": "366-1",
       "category": "Miscellaneous",
       "adopter": null
     },
