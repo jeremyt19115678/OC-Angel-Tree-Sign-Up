@@ -1,5 +1,5 @@
 BACKGROUND:
-This is a full-stack web application originally made for Taipei American School's Orphanage(OC). OC partners up with the Pearl S. Buck Foundation each Christmas to fulfill about 300 children's Christmas gift. For decades, the Club has facilitated this event using a physical wishlist, on which interested students, parents, or faculty of TAS can sign up by putting down their name, email, and phone numbers beside specific items. This project, although never deployed (perhaps never will--due to risks of leaking important contact information through an amateur application such as this one), was pursued in an attempt to digitize/streamline this process.
+This is a full-stack web application originally made for Taipei American School's Orphanage Club (OC). OC partners up with the Pearl S. Buck Foundation each Christmas to fulfill about 300 children's Christmas gift. For decades, the Club has facilitated this event using a physical wishlist, on which interested students, parents, or faculty of TAS can sign up by putting down their name, email, and phone numbers beside specific items. This project, although never deployed (perhaps never will--due to risks of leaking important contact information through an amateur application such as this one), was pursued in an attempt to digitize/streamline this process.
 
 
 DEPENDENCIES:
